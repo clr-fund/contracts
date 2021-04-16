@@ -9,7 +9,8 @@ import '@nomiclabs/hardhat-ganache'
 dotenv.config()
 
 const GAS_LIMIT = 10000000
-const WALLET_MNEMONIC = process.env.WALLET_MNEMONIC || '';
+const { RINKEBY_JSONRPC_HTTP_UR, XDAI_JSONRPC_HTTP_URL, WALLET_PRIVATE_KEY, WALLET_MNEMONIC } = process.env
+const ACCOUNTS = WALLET_PRIVATE_KEY ? [WALLET_PRIVATE_KEY] : { mnemonic: WALLET_MNEMONIC }
 
 const config: HardhatUserConfig = {
   networks: {
@@ -27,12 +28,12 @@ const config: HardhatUserConfig = {
     } as any,
     rinkeby: {
       url: process.env.RINKEBY_JSONRPC_HTTP_URL || 'http://127.0.0.1:8545',
-      accounts: { mnemonic: WALLET_MNEMONIC },
+      accounts: ACCOUNTS,
     },
     xdai: {
       url: process.env.XDAI_JSONRPC_HTTP_URL || 'https://rpc.xdaichain.com',
       timeout: 60000,
-      accounts: { mnemonic: WALLET_MNEMONIC },
+      accounts: ACCOUNTS,
     },
   },
   paths: {
